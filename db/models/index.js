@@ -1,17 +1,17 @@
 import {
-  DataTypes, Model, Sequelize, Transaction,
+  Sequelize, Transaction,
 } from 'sequelize';
-import user from './User.js';
 import configs from '../database.js';
 
 const env = process.env.NODE_ENV || 'development';
 const options = configs[env];
 
-const sequelizeInstance = new Sequelize({
+const sequelize = new Sequelize({
   ...options,
   dialect: 'mysql',
   transactionType: Transaction.TYPES.EXCLUSIVE,
   logging: console.log,
+
   pool: {
     min: 0,
     max: 5,
@@ -21,7 +21,6 @@ const sequelizeInstance = new Sequelize({
   },
 });
 
-sequelizeInstance.authenticate().catch((e) => { throw e; }).then(() => { console.log('MySQL connection established'); });
+sequelize.authenticate().catch((e) => { throw e; }).then(() => { console.log('MySQL connection established'); });
 
-export const sequelize = sequelizeInstance;
-export const User = user(sequelizeInstance, DataTypes, Model);
+export default sequelize;
