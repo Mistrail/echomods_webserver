@@ -11,6 +11,9 @@
         "sourceType": "module"
     },
     "rules": {
+        "import/no-extraneous-dependencies": ["off", {
+            "dependencies": true
+        }],
         "no-extra-semi": "off",
         "no-trailing-spaces": "error",
         "import/extensions": "off",
