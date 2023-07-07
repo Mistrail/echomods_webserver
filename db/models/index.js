@@ -11,6 +11,7 @@ const sequelize = new Sequelize({
   dialect: 'mysql',
   transactionType: Transaction.TYPES.EXCLUSIVE,
   logging: console.log,
+  logQueryParameters: true,
 
   pool: {
     min: 0,

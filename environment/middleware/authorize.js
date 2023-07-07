@@ -3,7 +3,6 @@ import User from '../../db/models/User.js';
 import HttpError from '../errors/HttpError.js';
 
 export default (req, res, next) => {
-  console.log(req.headers);
   if (req.headers['x-application-token'] !== process.env.APPLICATION_TOKEN) {
     throw new HttpError('APPLICATION_NOT_AUTH', 403, res);
   }

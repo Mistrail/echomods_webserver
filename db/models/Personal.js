@@ -15,5 +15,4 @@ Personal.init({
   timestamps: false,
 });
 
-User.hasOne(Personal);
-Personal.belongsTo(User);
+Personal.User = () => Personal.belongsTo(User);

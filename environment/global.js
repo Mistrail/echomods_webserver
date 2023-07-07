@@ -1,6 +1,10 @@
 import { config } from 'dotenv';
-import logger from './logger/logger.js';
+// import logger from './logger/logger.js';
 
 config();
 
-global.d = logger.info;
+process.on('uncaughtException', (err) => {
+  console.error(err);
+});
+
+// global.d = logger.info;
