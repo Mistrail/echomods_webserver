@@ -8,7 +8,7 @@ const options = configs[env];
 
 const sequelize = new Sequelize({
   ...options,
-  dialect: 'mysql',
+  dialect: 'postgres',
   transactionType: Transaction.TYPES.EXCLUSIVE,
   logging: console.log,
   logQueryParameters: true,

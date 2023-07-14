@@ -1,0 +1,6 @@
+export default {
+  USER: 'USER',
+  DISTRIBUTOR: 'DISTRIBUTOR',
+  MODERATOR: 'ADMIN',
+  ADMIN: 'ADMIN',
+};

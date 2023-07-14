@@ -1,10 +1,11 @@
 import { createContext } from 'context';
 import User from '../../db/models/User.js';
-import HttpError from '../errors/HttpError.js';
+import HttpResponse from '../httpResponse.js';
+import customStatus from '../customStatus.js';
 
 export default (req, res, next) => {
   if (req.headers['x-application-token'] !== process.env.APPLICATION_TOKEN) {
-    throw new HttpError('APPLICATION_NOT_AUTH', 403, res);
+    res.sendResponse(new HttpResponse(customStatus.APPLICATION_NOT_AUTH));
   }
 
   try {

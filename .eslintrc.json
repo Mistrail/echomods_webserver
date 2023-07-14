@@ -14,7 +14,7 @@
         "import/no-extraneous-dependencies": ["off", {
             "dependencies": true
         }],
-        "import/no-cycle": "weak",
+        "import/no-cycle": "off",
         "no-extra-semi": "off",
         "no-trailing-spaces": "error",
         "import/extensions": "off",

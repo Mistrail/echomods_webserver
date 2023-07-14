@@ -3,11 +3,16 @@ import jwt from 'jsonwebtoken';
 import { DataTypes, Model } from 'sequelize';
 import sequelize from './index.js';
 import Personal from './Personal.js';
+import Role from './Role.js';
 
 export default class User extends Model {
   static ALGO = 'sha512';
 
   static DIGEST_TYPE = 'hex';
+
+  static scopes = {
+    PUBLIC: 'publicScope',
+  };
 
   static generateSalt() {
     return crypto.randomBytes(64).toString(User.DIGEST_TYPE);
@@ -38,6 +43,12 @@ export default class User extends Model {
     }
     return null;
   }
+
+  async getRestoreToken() {
+    return jwt.sign({ id: this.id, restore: true }, process.env.JWT_SCRET, {
+      expiresIn: '1h',
+    });
+  }
 }
 User.init({
   login: {
@@ -66,4 +77,13 @@ User.init({
   sequelize,
   paranoid: true,
 });
-User.Personal = () => User.hasOne(Personal);
+
+User.Personal = User.hasOne(Personal);
+User.Roles = User.hasMany(Role);
+
+User.addScope('publicScope', {
+  attributes: { exclude: ['passwordHash', 'salt'] },
+  include: [
+    User.Personal, User.Roles,
+  ],
+});

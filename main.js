@@ -7,9 +7,11 @@ import cors from 'cors';
 import upload from './routes/upload.js';
 import auth from './routes/auth.js';
 import user from './routes/user.js';
-import catalog from './routes/catalog.js';
-import HttpError from './environment/errors/HttpError.js';
-import context from './environment/middleware/authorize.js';
+import catalog from './routes/catalog/index.js';
+import authorize from './environment/middleware/authorize.js';
+import responseWrapper from './environment/middleware/responseWrapper.js';
+import HttpResponse from './environment/httpResponse.js';
+import HttpStatus from './environment/httpStatus.js';
 
 const jsonParser = bodyParser.json();
 
@@ -20,13 +22,14 @@ const uploader = multer({
 const app = express();
 
 app
+  .use(responseWrapper)
   .use(cors())
   .use((req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
     next();
   })
   .use(jsonParser)
-  .use(context);
+  .use(authorize);
 
 app.post('/upload', uploader.single('upload'), upload);
 app.use('/auth', auth);
@@ -35,5 +38,5 @@ app.use('/catalog', catalog);
 
 app.listen(80);
 app.use((req, res) => {
-  throw new HttpError('NOT_FOUND', 404, res);
+  res.sendResponse(new HttpResponse(HttpStatus.NOT_FOUND));
 });
